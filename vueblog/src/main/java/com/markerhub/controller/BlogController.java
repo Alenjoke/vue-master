@@ -79,6 +79,7 @@ public class BlogController {
     public Result delete(@RequestBody Blog blog) {
         Blog tmp = blogService.getById(blog.getId());
         Assert.notNull(tmp, "该博客不存在！");
+        System.out.println(ShiroUtil.getProfile().getId());
         Assert.isTrue(tmp.getUserId() == ShiroUtil.getProfile().getId(), "没有权限编辑");
 
         //进行删除操作

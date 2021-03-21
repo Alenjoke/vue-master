@@ -64,24 +64,23 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-
           const _this = this;
 
-          this.$axios.post('/login', this.ruleForm).then(res => {
-              console.log(res)
+          this.$axios.post("/login", this.ruleForm).then((res) => {
+            console.log(res);
 
-              const jwt = res.headers['authorization']
-              const userInfo = res.data.data
-              console.log(userInfo)
+            const jwt = res.headers["authorization"];
+            const userInfo = res.data.data;
+            console.log(userInfo);
 
-              _this.$store.commit("SET_TOKEN", jwt)
-              _this.$store.commit("SET_USERINFO", userInfo)
+            _this.$store.commit("SET_TOKEN", jwt);
+            _this.$store.commit("SET_USERINFO", userInfo);
 
-              console.log(_this.$store.getters.getUser)
+            console.log(_this.$store.getters.getUser);
 
-              //跳转
-              _this.$router.push("/blogs")
-          })
+            //跳转
+            _this.$router.push("/blogs");
+          });
         } else {
           console.log("error submit!!");
           return false;
@@ -137,7 +136,7 @@ body > .el-container {
 }
 
 .demo-ruleForm {
-    max-width: 500px;
-    margin: 0 auto;
+  max-width: 500px;
+  margin: 0 auto;
 }
 </style>

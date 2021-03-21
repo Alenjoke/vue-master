@@ -20,7 +20,7 @@
         <el-form-item label="内容" prop="content">
           <mavon-editor v-model="ruleForm.content"></mavon-editor>
         </el-form-item>
-        
+
         <el-form-item class="mBtn">
           <el-button type="primary" @click="submitForm('ruleForm')"
             >立即创建</el-button
@@ -44,7 +44,7 @@ export default {
       ruleForm: {
         description: "",
         title: "",
-        content: ""
+        content: "",
       },
       rules: {
         title: [
@@ -53,12 +53,22 @@ export default {
         ],
         description: [
           { required: true, message: "请输入描述", trigger: "blur" },
-          { min: 3, max: 20,message: "长度在 3 到 20 个字符", trigger: "blur" },
+          {
+            min: 3,
+            max: 20,
+            message: "长度在 3 到 20 个字符",
+            trigger: "blur",
+          },
         ],
         content: [
           { required: true, message: "请输入内容", trigger: "blur" },
-          { min: 3, max: 200, message: "长度在 3 到 200 个字符", trigger: "blur" },
-        ]
+          {
+            min: 3,
+            max: 200,
+            message: "长度在 3 到 200 个字符",
+            trigger: "blur",
+          },
+        ],
       },
     };
   },
@@ -66,19 +76,21 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          const _this = this
-          this.$axios.post("/blogs/edit", this.ruleForm,{
-            headers: {
-                "Authorization": localStorage.getItem("token")
-            }
-          }).then(res => {
-        this.$alert('操作成功', '提示', {
-          confirmButtonText: '确定',
-          callback: action => {
-            _this.$router.push('/blogs')
-          }
-        });
-          })
+          const _this = this;
+          this.$axios
+            .post("/blogs/edit", this.ruleForm, {
+              headers: {
+                Authorization: localStorage.getItem("token"),
+              },
+            })
+            .then((res) => {
+              this.$alert("操作成功", "提示", {
+                confirmButtonText: "确定",
+                callback: (action) => {
+                  _this.$router.push("/blogs");
+                },
+              });
+            });
         } else {
           console.log("error submit!!");
           return false;
@@ -90,22 +102,21 @@ export default {
     },
   },
   created() {
-    const blogId = this.$route.params.blogId
-    console.log(blogId)
+    const blogId = this.$route.params.blogId;
+    console.log(blogId);
 
-    const _this = this
-    if(blogId) {
-      _this.$axios.get('/blogs/' + blogId).then(res => {
-        const blog = res.data.data
+    const _this = this;
+    if (blogId) {
+      _this.$axios.get("/blogs/" + blogId).then((res) => {
+        const blog = res.data.data;
 
-        _this.ruleForm.id = blog.id
-        _this.ruleForm.description = blog.description
-        _this.ruleForm.title = blog.title
-        _this.ruleForm.content = blog.content
-      })
+        _this.ruleForm.id = blog.id;
+        _this.ruleForm.description = blog.description;
+        _this.ruleForm.title = blog.title;
+        _this.ruleForm.content = blog.content;
+      });
     }
-
-  }
+  },
 };
 </script>
 
